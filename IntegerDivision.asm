@@ -1,91 +1,168 @@
-@R1
-D=M
-@DIV_BY_ZERO
-D;JEQ
+// IntegerDivision.asm
 
-@R2
-M=0
-@R3
-M=0
-
+// Save R0 and R1 into variables
 @R0
 D=M
-@X_NEGATIVE
-D;JGE
-@R5
-M=-D
-@POSITIVE_X
-0;JMP
-(X_NEGATIVE)
-@R5
+@x
 M=D
-(POSITIVE_X)
-
 @R1
 D=M
-@Y_NEGATIVE
-D;JGE
-@R6
-M=-D
-@POSITIVE_Y
-0;JMP
-(Y_NEGATIVE)
-@R6
+@y
 M=D
-(POSITIVE_Y)
 
-@R5
+// Initialize R4 to 0 (valid)
+@R4
+M=0
+
+// Check if y is 0
+@y
 D=M
-@R6
-D=D-M
-@DONE
+@INVALID
+D;JEQ
+
+// Determine the sign of x
+@x
+D=M
+@sign_x
+M=1
+@X_NEG
 D;JLT
+(X_POS)
+@sign_x
+M=1
+@COMPUTE_SIGN_Y
+0;JMP
+(X_NEG)
+@sign_x
+M=-1
+
+// Determine the sign of y
+(COMPUTE_SIGN_Y)
+@y
+D=M
+@sign_y
+M=1
+@Y_NEG
+D;JLT
+(Y_POS)
+@sign_y
+M=1
+@COMPUTE_AX_AY
+0;JMP
+(Y_NEG)
+@sign_y
+M=-1
+
+// Compute absolute values of x and y
+(COMPUTE_AX_AY)
+@x
+D=M
+@ax
+M=D
+@MAKE_AX_POS
+D;JGE
+@ax
+M=-D
+(MAKE_AX_POS)
+
+@y
+D=M
+@ay
+M=D
+@MAKE_AY_POS
+D;JGE
+@ay
+M=-D
+(MAKE_AY_POS)
+
+// Perform division of ax by ay to get quotient_abs and remainder_abs
+@quotient_abs
+M=0
+@ax
+D=M
+@temp
+M=D
 
 (DIV_LOOP)
-@R5
+@temp
 D=M
-@R6
+@ay
 D=D-M
-@DONE
+@END_DIV
 D;JLT
-
-@R5
-M=D
-@R2
+@ay
+D=M
+@temp
+M=M-D
+@quotient_abs
 M=M+1
 @DIV_LOOP
 0;JMP
 
-(DONE)
-@R3
+(END_DIV)
+@temp
+D=M
+@remainder_abs
 M=D
 
-@R0
+// Compute sign_m = sign_x * sign_y
+@sign_x
 D=M
-@R1
-D=D^M
-@ADJUST_SIGN
-D;JLT
+@sign_y
+D=D*M
+@sign_m
+M=D
 
-@R4
-M=0
-@END
+// Compute m = quotient_abs * sign_m
+@quotient_abs
+D=M
+@m
+M=D
+@sign_m
+D=M
+@SET_M_NEG
+D;JLT
+@COMPUTE_Q_VAL
 0;JMP
 
-(ADJUST_SIGN)
-@R2
+(SET_M_NEG)
+@m
 M=-M
 
-@R4
-M=0
+// Compute q = remainder_abs * sign_x
+(COMPUTE_Q_VAL)
+@remainder_abs
+D=M
+@q
+M=D
+@sign_x
+D=M
+@SET_Q_NEG
+D;JLT
+@STORE_RESULTS
+0;JMP
+
+(SET_Q_NEG)
+@q
+M=-M
+
+// Store results in R2, R3 and exit
+(STORE_RESULTS)
+@m
+D=M
+@R2
+M=D
+@q
+D=M
+@R3
+M=D
 @END
 0;JMP
 
-(DIV_BY_ZERO)
+// Handle invalid division (y=0)
+(INVALID)
 @R4
 M=1
-@END
-0;JMP
 
 (END)
 @END
