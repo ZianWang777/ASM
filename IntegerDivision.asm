@@ -1,80 +1,75 @@
-// Check if divisor (y) is zero.
     @R1
     D=M
-    @INVALID      // if y == 0, jump to INVALID division routine
+    @INVALID
     D;JEQ
     @R4
-    M=0         // valid division: flag = 0
+    M=0
 
     @R0
     D=M
     @R5
-    M=D         // R5 <- x (original)
+    M=D
     @R1
     D=M
     @R6
-    M=D         // R6 <- y (original)
+    M=D
 
     @R5
-    D=M         // D = x
+    D=M
     @POSX
-    D;JGE      // if x >= 0, jump to POSX
-    // x is negative: compute |x| = -x
+    D;JGE
     @R5
     D=M
     D=-D
     @R7
-    M=D         // R7 <- |x|
+    M=D
     @CONTX
     0;JMP
 (POSX)
     @R5
-    D=M         // x is nonnegative
+    D=M
     @R7
-    M=D         // R7 <- x
+    M=D
 (CONTX)
 
     @R6
-    D=M         // D = y
+    D=M
     @POSY
-    D;JGE      // if y >= 0, jump to POSY
-    // y is negative: compute |y| = -y
+    D;JGE
     @R6
     D=M
     D=-D
     @R8
-    M=D         // R8 <- |y|
+    M=D
     @CONTY
     0;JMP
 (POSY)
     @R6
-    D=M         // y is nonnegative
+    D=M
     @R8
-    M=D         // R8 <- y
+    M=D
 (CONTY)
 
     @R7
     D=M
     @R3
-    M=D         // R3 <- |x|   (initial remainder)
+    M=D
     @R2
-    M=0         // R2 <- 0    (initial quotient)
+    M=0
 
 (LOOP)
     @R3
-    D=M         // D = remainder
+    D=M
     @R8
-    D=D-M     // D = remainder - |y|
+    D=D-M
     @ENDLOOP
-    D;JLT      // if (remainder - |y|) < 0, exit loop
-    // Otherwise, subtract |y| from remainder:
+    D;JLT
     @R3
-    D=M         // D = remainder (reload)
+    D=M
     @R8
-    D=D-M     // D = remainder - |y|
+    D=D-M
     @R3
-    M=D         // update remainder: R3 = R3 - |y|
-    // Increment quotient:
+    M=D
     @R2
     M=M+1
     @LOOP
@@ -82,14 +77,13 @@
 (ENDLOOP)
 
     @R5
-    D=M         // D = x
+    D=M
     @XNEG
-    D;JLT      // if x < 0, jump to XNEG branch
-    // Here x is nonnegative.
+    D;JLT
     @R6
-    D=M         // D = y
+    D=M
     @YNEGNONX
-    D;JLT      // if y < 0 then need to negate quotient
+    D;JLT
     @DONEQ
     0;JMP
 (YNEGNONX)
@@ -101,23 +95,22 @@
     @DONEQ
     0;JMP
 (XNEG)
-    // Here x is negative.
     @R6
-    D=M         // D = y
+    D=M
     @YNEGX
-    D;JLT      // if y < 0 then quotient stays positive
+    D;JLT
     @R2
     D=M
-    D=-D        // else (x negative, y nonnegative): negate quotient
+    D=-D
     @R2
     M=D
 (YNEGX)
 (DONEQ)
 
     @R5
-    D=M         // D = x
+    D=M
     @DONER
-    D;JGE      // if x >= 0, remainder remains positive
+    D;JGE
     @R3
     D=M
     D=-D
@@ -130,11 +123,11 @@
 
 (INVALID)
     @R4
-    M=1         // flag = 1 indicates invalid division
+    M=1
     @R2
-    M=0         // set quotient to 0
+    M=0
     @R3
-    M=0         // set remainder to 0
+    M=0
     @END
     0;JMP
 
