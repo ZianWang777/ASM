@@ -11,21 +11,28 @@ M=0
 @R0
 D=M
 @X_NEGATIVE
-D;JLT
+D;JGE
+@R5
+M=-D
+@POSITIVE_X
+0;JMP
+(X_NEGATIVE)
+@R5
+M=D
+(POSITIVE_X)
+
 @R1
 D=M
 @Y_NEGATIVE
-D;JLT
-
-(ABS_VALUES)
-@R0
-D=M
-@R5
-M=D  // Store |x|
-@R1
-D=M
+D;JGE
 @R6
-M=D  // Store |y|
+M=-D
+@POSITIVE_Y
+0;JMP
+(Y_NEGATIVE)
+@R6
+M=D
+(POSITIVE_Y)
 
 @R5
 D=M
@@ -55,6 +62,8 @@ M=D
 
 @R0
 D=M
+@R1
+D=D^M
 @ADJUST_SIGN
 D;JLT
 
@@ -66,8 +75,6 @@ M=0
 (ADJUST_SIGN)
 @R2
 M=-M
-@R3
-M=-M
 
 @R4
 M=0
@@ -77,6 +84,8 @@ M=0
 (DIV_BY_ZERO)
 @R4
 M=1
+@END
+0;JMP
 
 (END)
 @END
