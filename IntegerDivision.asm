@@ -1,8 +1,5 @@
-@R0
-D=M
 @R1
-A=M
-D=A
+D=M
 @DIV_BY_ZERO
 D;JEQ
 
@@ -20,15 +17,32 @@ D=M
 @Y_NEGATIVE
 D;JLT
 
-(DIV_LOOP)
+(ABS_VALUES)
 @R0
 D=M
+@R5
+M=D  // Store |x|
 @R1
+D=M
+@R6
+M=D  // Store |y|
+
+@R5
+D=M
+@R6
 D=D-M
 @DONE
 D;JLT
 
-@R0
+(DIV_LOOP)
+@R5
+D=M
+@R6
+D=D-M
+@DONE
+D;JLT
+
+@R5
 M=D
 @R2
 M=M+1
