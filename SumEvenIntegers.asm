@@ -3,10 +3,8 @@ D=M
 @INVALID_SIZE
 D;JLE
 
-@0
-D=A
 @R2
-M=D
+M=0
 @R0
 D=M
 @R3
@@ -28,12 +26,10 @@ D=M
 @R2
 M=M+D
 
-@1
-D=A
 @R3
-M=M+D
+M=M+1
 @R4
-M=M-D
+M=M-1
 
 @LOOP
 0;JMP
@@ -43,12 +39,9 @@ M=M-D
 D=A
 @R2
 M=D
+@END
+0;JMP
 
 (END)
 @END
 0;JMP
-
-
-
-
-
