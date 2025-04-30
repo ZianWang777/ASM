@@ -2,6 +2,10 @@
 D=M
 @R2
 M=D
+@R2
+D=M
+@NEG
+D;JLT
 
 @R1
 M=0
@@ -21,6 +25,13 @@ M=M-1
 
 @LOOP
 0;JMP
+
+(NEG)
+@R2
+D=M
+D=-D
+@R2
+M=D
 
 (END)
 @END
