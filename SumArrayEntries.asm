@@ -35,8 +35,10 @@ M=M-1
 0;JMP
 
 (INVALID_SIZE)
+@0
+D=A
 @R2
-M=0
+M=D
 @END
 0;JMP
 
