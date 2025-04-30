@@ -27,12 +27,6 @@ M=D+M
 D=M
 @R1
 M=D+M
-@R1
-D=M
-@32767
-D=D-A
-@OVER
-D;JLE
 
 @R3
 M=M-1
@@ -48,15 +42,6 @@ M=D
 @END
 0;JMP
 
-(OVER)
-@-2
-D=A
-@R1
-M=D
-@END
-0;JMP
-
 (END)
 @END
 0;JMP
-
