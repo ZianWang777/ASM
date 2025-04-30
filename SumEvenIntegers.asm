@@ -5,6 +5,8 @@ M=D
 
 @R1
 M=0
+@R4
+M=0
 
 @R0
 D=M
@@ -19,6 +21,10 @@ D;JEQ
 
 @2
 D=A
+@R4
+M=D+M
+@R4
+D=M
 @R1
 M=D+M
 
@@ -39,3 +45,4 @@ M=D
 (END)
 @END
 0;JMP
+
