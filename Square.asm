@@ -6,6 +6,10 @@ M=D
 D=M
 @NEG
 D;JLT
+@R2
+D=M
+@R3
+M=D
 
 @R1
 M=0
@@ -16,7 +20,7 @@ D=M
 @END
 D;JEQ
 
-@R0
+@R3
 D=M
 @R1
 M=D+M
