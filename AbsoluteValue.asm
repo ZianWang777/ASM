@@ -9,29 +9,31 @@ M=D
 // Load the value from R0
 @R0
 D=M 
-// If R0 < 0, jump to IS_NEGATIVE
+// If R0<0, jump to IS_NEGATIVE
 @IS_NEGATIVE
 D;JLT     
 
-// If R0 >= 0, store R0 into R1
+// If R0>=0, store R0 into R1
 @R1
-M=D        
+M=D
 @END
-0;JMP      
+0;JMP
 
 (IS_NEGATIVE)
-// If R0 is negative, set R2 = 1
+// If R0 is neg, then R2=1
 @R2
 M=1
-// Load R0 again
+
 @R0
 D=M 
-// Negate the value to get absolute value
+// negate the value to positive
 D=-D       
-// Store the absolute value into R1
+// store the absolute value
 @R1
 M=D
 
 (END)
 @END
 0;JMP  
+
+//it's very simple question
